@@ -7,8 +7,8 @@ from torchvision.io import read_image
 
 import pandas as pd
 
-images_path = "dataset"
-steering_path = "dataset/interpolated.csv"
+images_path = "../dataset"
+steering_path = "../dataset/interpolated.csv"
 
 class NvidiaDaveDataset(Dataset):
     """
