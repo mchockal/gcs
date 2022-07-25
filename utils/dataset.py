@@ -7,8 +7,8 @@ from torchvision.io import read_image
 
 import pandas as pd
 
-images_path = "../dataset"
-steering_path = "../dataset/interpolated.csv"
+images_path = "/home/meena270593/dataset"
+steering_path = "/home/meena270593/dataset/interpolated.csv"
 
 class NvidiaDaveDataset(Dataset):
     """
@@ -58,22 +58,17 @@ def load_nvidia_dataset(batch_size=64, transform=None):
 
     dataset_length = len(nvidia_dataset)
 
-    # Reserving 10% of dataset for testing.
-    num_training_and_validation_samples = int(dataset_length * 0.9)
+    # Reserving 20% of dataset for validation.
+    num_training_samples = int(dataset_length * 0.8)
+    num_validation_samples = dataset_length - num_training_samples
 
-    # Reserving 80% of non-testing data for training and 20% for validation.
-    num_training_samples = int(num_training_and_validation_samples * 0.8)
-    num_validation_samples = num_training_and_validation_samples - num_training_samples
-    num_testing_samples = dataset_length - num_training_and_validation_samples
-
-    # Spliting NVIDIA dataset into training, validation, and test sets.
-    training_data, validation_data, testing_data = torch.utils.data.random_split(
-        nvidia_dataset, [num_training_samples, num_validation_samples, num_testing_samples],
+    # Spliting NVIDIA dataset into training, validation.
+    training_data, validation_data = torch.utils.data.random_split(
+        nvidia_dataset, [num_training_samples, num_validation_samples],
     )
 
     # Converting datasets into data loaders to introduce mini-batching and per-epoch shuffling.
     training_dataloader = DataLoader(training_data, batch_size=batch_size, shuffle=True, num_workers=1, pin_memory=True)
     validation_dataloader = DataLoader(validation_data, batch_size=batch_size, shuffle=True, num_workers=1, pin_memory=True)
-    testing_dataloader = DataLoader(testing_data, batch_size=batch_size, shuffle=True, num_workers=1, pin_memory=True)
 
-    return training_dataloader, validation_dataloader, testing_dataloader
+    return training_dataloader, validation_dataloader
