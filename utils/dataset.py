@@ -7,8 +7,13 @@ from torchvision.io import read_image
 
 import pandas as pd
 
-images_path = "/home/meena270593/dataset/"
-steering_path = "/home/meena270593/dataset/interpolated.csv"
+training_images_path = "dataset/"
+training_steering_path = "dataset/interpolated.csv"
+
+testing_images_path = "dataset/test/center"
+testing_steering_path = "dataset/test/CH2_final_evaluation.csv"
+
+image_extension = ".jpg"
 
 class NvidiaDaveDataset(Dataset):
     """
@@ -19,21 +24,29 @@ class NvidiaDaveDataset(Dataset):
 
     https://pytorch.org/tutorials/beginner/basics/data_tutorial.html
     """
-    def __init__(self, steering_label_file, image_directory, transform=None, target_transform=None):
+    def __init__(self, steering_label_file, image_directory, transform=None, target_transform=None, test_set=False):
         steering_data = pd.read_csv(steering_label_file)
-        self.image_filenames = steering_data["filename"]
-        self.steering_angles = steering_data["angle"]
+        if test_set:
+            self.image_filenames = steering_data["frame_id"]
+            self.steering_angles = steering_data["steering_angle"]
+        else:
+            self.image_filenames = steering_data["filename"]
+            self.steering_angles = steering_data["angle"]
         self.image_directory = image_directory
         self.transform = transform
         self.target_transform = target_transform
+        self.test_set = test_set
 
     def __len__(self):
         return len(self.steering_angles)
 
     def __getitem__(self, idx):
-        image_path = os.path.join(
-            self.image_directory, str(self.image_filenames.iloc[idx]),
-        )
+        image_filename = str(self.image_filenames.iloc[idx])
+
+        if self.test_set:
+            image_filename += image_extension
+
+        image_path = os.path.join(self.image_directory, image_filename)
         image = read_image(image_path)
         image = image.float()
         label = self.steering_angles.iloc[idx]
@@ -52,9 +65,9 @@ def load_nvidia_dataset(batch_size=64, transform=None):
     nvidia_dataset = None
 
     if transform is None:
-        nvidia_dataset = NvidiaDaveDataset(steering_path, images_path)
+        nvidia_dataset = NvidiaDaveDataset(training_steering_path, training_images_path)
     else:
-        nvidia_dataset = NvidiaDaveDataset(steering_path, images_path, transform=transform)
+        nvidia_dataset = NvidiaDaveDataset(training_steering_path, training_images_path, transform=transform)
 
     dataset_length = len(nvidia_dataset)
 
@@ -71,4 +84,15 @@ def load_nvidia_dataset(batch_size=64, transform=None):
     training_dataloader = DataLoader(training_data, batch_size=batch_size, shuffle=True, num_workers=1, pin_memory=True)
     validation_dataloader = DataLoader(validation_data, batch_size=batch_size, shuffle=True, num_workers=1, pin_memory=True)
 
-    return training_dataloader, validation_dataloader
+    # Pulling in the NVIDIA test dataset.
+    nvidia_test_dataset = None
+
+    if transform is None:
+        nvidia_test_dataset = NvidiaDaveDataset(testing_steering_path, testing_images_path, test_set=True)
+    else:
+        nvidia_test_dataset = NvidiaDaveDataset(testing_steering_path, testing_images_path, transform=transform, test_set=True)
+
+    # Creating a test data loader.
+    testing_dataloader = DataLoader(nvidia_test_dataset)
+
+    return training_dataloader, validation_dataloader, testing_dataloader
