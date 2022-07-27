@@ -7,11 +7,11 @@ from torchvision.io import read_image
 
 import pandas as pd
 
-training_images_path = "dataset/"
-training_steering_path = "dataset/interpolated.csv"
+training_images_path = "/home/meena270593/dataset/"
+training_steering_path = "/home/meena270593/dataset/interpolated.csv"
 
-testing_images_path = "dataset/test/center"
-testing_steering_path = "dataset/test/CH2_final_evaluation.csv"
+testing_images_path = "/home/meena270593/dataset/test/center"
+testing_steering_path = "/home/meena270593/dataset/test/CH2_final_evaluation.csv"
 
 image_extension = ".jpg"
 
