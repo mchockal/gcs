@@ -51,10 +51,10 @@ class VisionTransformer(nn.Module):
             *(AttentionBlock(self.embed_dim, self.hidden_dim, self.num_heads, dropout) for _ in range(self.num_layers))
         )
         self.mlp_head = nn.Sequential(nn.LayerNorm(self.embed_dim),
-                                      nn.Linear(self.embed_dim, self.hidden_dim))
+                                      nn.Linear(self.embed_dim, 1))
 
-        # not sure if this final layer is necessary. Alternatively we can have the mlp_head output to 1 value.
-        self.final_linear = nn.Linear(self.hidden_dim, 1)
+        # # not sure if this final layer is necessary. Alternatively we can have the mlp_head output to 1 value.
+        # self.final_linear = nn.Linear(self.hidden_dim, 1)
 
         self.class_token = nn.Parameter(torch.rand(1, 1, self.embed_dim))
         self.pos_embedding = nn.Parameter(torch.randn(1, 1+self.num_patches, self.embed_dim))
@@ -75,7 +75,8 @@ class VisionTransformer(nn.Module):
         cls = x[0]
         out = self.mlp_head(cls)
 
-        out = self.final_linear(out)
+        # out = self.final_linear(out)
+        out = out.double()
         return out
 
 
