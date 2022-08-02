@@ -1,0 +1,113 @@
+Model Checkpoint Information
+
+model_file: vision_transformer_1.pth
+
+	learning rate - 1e-7
+	momentum 0.9
+	regularization = 1e-8
+	batch_size = 2
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 2
+	num_heads = 2
+	hidden_dim = 32
+	mlp_dim = 1024
+
+Note: Do not use the model above as there was a bug where the test set was being used for validation.
+
+model_file: vision_transformer_2.pth
+
+	learning rate - 1e-7
+	momentum 0.9
+	regularization = 1e-8
+	batch_size = 2
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 2
+	num_heads = 2
+	hidden_dim = 32
+	mlp_dim = 1024
+
+model_file: vision_transformer_4.pth
+
+	learning rate - 1e-8
+	momentum 0.4
+	regularization = 1e-2
+	batch_size = 2
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 2
+	num_heads = 2
+	hidden_dim = 32
+	mlp_dim = 1024
+
+model_file: vision_transformer_5.pth
+
+	learning rate - 1e-7
+	momentum 0.4
+	regularization = 1e-6
+	batch_size = 32
+	epochs = 10
+	image_size = 128
+	patch_size = 64
+	num_layers = 2
+	num_heads = 2
+	hidden_dim = 64
+	mlp_dim = 1024
+
+Transforms:
+	RandomRotation(2)
+
+model_file: vision_transformer_6.pth
+
+	learning rate - 1e-8
+	momentum 0.4
+	regularization = 1e-6
+	batch_size = 8
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 1
+	num_heads = 2
+	hidden_dim = 256
+	mlp_dim = 1024
+
+Transforms:
+	RandomRotation(2)
+
+model_file: vision_transformer_7.pth
+
+	learning rate - 1e-8
+	momentum 0.4
+	regularization = 1e-6
+	batch_size = 8
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 1
+	num_heads = 1
+	hidden_dim = 32
+	mlp_dim = 1024
+
+Transforms:
+	RandomRotation(2)
+
+model_file: vision_transformer_8.pth
+
+	learning rate - 1e-8
+	momentum 0.4
+	regularization = 1e-6
+	batch_size = 8
+	epochs = 10
+	image_size = 128
+	patch_size = 32
+	num_layers = 1
+	num_heads = 8
+	hidden_dim = 128
+	mlp_dim = 1024
+
+Transforms:
+	RandomRotation(2)
