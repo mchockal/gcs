@@ -134,7 +134,7 @@ def main():
 
     print('Best Loss @1: {:.4f}'.format(best))
 
-    torch.save(best_model.state_dict(), './checkpoints/nvidia_dave2.pth')
+    torch.save(best_model.state_dict(), 'checkpoints/nvidia_dave2_50epochs.pth')
 
 if __name__ == '__main__':
     main()
