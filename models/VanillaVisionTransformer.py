@@ -1,6 +1,10 @@
 import torch
 from torch import nn
 
+# Citation:
+# Code in this file is based on code from:
+# https://uvadlc-notebooks.readthedocs.io/en/latest/tutorial_notebooks/tutorial15/Vision_Transformer.html
+
 class AttentionBlock(nn.Module):
     def __init__(self, embed_dim, hidden_dim, num_heads, dropout=0.0):
         super().__init__()
@@ -30,7 +34,7 @@ class AttentionBlock(nn.Module):
 class VisionTransformer(nn.Module):
     def __init__(self, device, image_shape, patch_size, hidden_dim, embed_dim, num_channels, num_heads, num_layers, dropout=0.0):
         super(VisionTransformer, self).__init__()
-        assert hidden_dim % num_heads == 0
+        # assert hidden_dim % num_heads == 0
 
         # calculates number of patches
         C, H, W = image_shape
